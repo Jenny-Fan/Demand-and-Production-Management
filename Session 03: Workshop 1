@@ -1,0 +1,11 @@
+library(fpp3)
+
+setwd("C:/Working 2021/Teaching/Prodcution and demand management/Data examples")
+retail_sales<-readxl::read_excel("Triple ES.xlsx", col_names = TRUE)
+
+ts_sales<-retail_sales%>%
+  mutate(Month=yearmonth(Date))%>%
+  as_tsibble(index = Month)
+
+ts_sales%>%
+  model(ets=ETS(Sales~ error("A")+trend("A")+season("M")))
